@@ -38,7 +38,7 @@
 #include "contiki-net.h"
 #include "lib/petsciiconv.h"
 #include "shell.h"
-
+#include "bbsdefs.h"
 #include "telnetd.h"
 
 extern BBS_STATUS_REC bbs_status;
@@ -212,7 +212,7 @@ PROCESS_THREAD(telnetd_process, ev, data)
 
   if(bbs_status.bbs_encoding==1){petsciiconv_toascii(telnetd_reject_text, strlen(telnetd_reject_text));}
 
-  tcp_listen(UIP_HTONS(23));
+  tcp_listen(UIP_HTONS(BBS_TELNET_PORT));
 
   while(1) {
     PROCESS_WAIT_EVENT();
@@ -250,11 +250,15 @@ senddata(void)
 static void
 get_char(uint8_t c)
 {
+  char in[1];
   PRINTF("telnetd: get_char '%c' %d %d\n", c, c, s.bufptr);
 
   if(c == 0) {
     return;
   }
+
+  in[0]=c;
+  buf_append(&buf, in, 1);
 
   if(c != ISO_nl && c != ISO_cr) {
     s.buf[(int)s.bufptr] = c;
