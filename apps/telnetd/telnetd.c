@@ -260,6 +260,7 @@ get_char(uint8_t c)
   in[0]=c;
   buf_append(&buf, in, 1);
 
+
   if(c != ISO_nl && c != ISO_cr) {
     s.buf[(int)s.bufptr] = c;
     ++s.bufptr;
