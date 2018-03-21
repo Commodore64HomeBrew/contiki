@@ -210,7 +210,7 @@ PROCESS_THREAD(telnetd_process, ev, data)
   telnetd_gui_init();
 #endif /* TELNETD_CONF_GUI */
 
-  if(bbs_status.bbs_encoding==1){petsciiconv_toascii(telnetd_reject_text, strlen(telnetd_reject_text));}
+  //if(bbs_status.bbs_encoding==1){petsciiconv_toascii(telnetd_reject_text, strlen(telnetd_reject_text));}
 
   tcp_listen(UIP_HTONS(BBS_TELNET_PORT));
 
