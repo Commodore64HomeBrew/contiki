@@ -1441,6 +1441,9 @@ uip_process(uint8_t flag)
      any RST and kill our connection. We should in fact check if the
      sequence number of this reset is within our advertised window
      before we accept the reset. */
+//***************************************
+//FIX THIS KEVIN!!!
+//***************************************
   if(BUF->flags & TCP_RST) {
     uip_connr->tcpstateflags = UIP_CLOSED;
     UIP_LOG("tcp: got reset, aborting connection.");
@@ -1448,6 +1451,7 @@ uip_process(uint8_t flag)
     UIP_APPCALL();
     goto drop;
   }
+//***************************************
   /* Calculate the length of the data, if the application has sent
      any data to us. */
   c = (BUF->tcpoffset >> 4) << 2;
