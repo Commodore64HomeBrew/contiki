@@ -80,7 +80,7 @@ void
 config_read(char *filename)
 {
   int file;
-
+  /*
   file = cfs_open(filename, CFS_READ);
   if(file < 0) {
     log_message(filename, ": File not found");
@@ -94,6 +94,27 @@ config_read(char *filename)
   }
 
   cfs_close(file);
+  */
+  file = cbm_open(10, 8, 10, filename);
+
+  if(file) {
+    log_message(filename, ": File not found");
+    error_exit();
+  }
+
+  if(cbm_read(10, &config, sizeof(config)) < sizeof(uip_ipaddr_t) * 4
+                                             + sizeof(uint16_t)) {
+    log_message(filename, ": No config file");
+    error_exit();
+  }
+  cbm_close(10);
+
+
+
+
+
+
+
 
   log_message("IP Address:  ", ipaddrtoa(&config.hostaddr, uip_buf));
   log_message("Subnet Mask: ", ipaddrtoa(&config.netmask, uip_buf));
