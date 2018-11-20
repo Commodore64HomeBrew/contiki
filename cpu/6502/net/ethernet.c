@@ -84,7 +84,7 @@ ethernet_init(void)
 
   struct mod_ctrl module_control = {cfs_read};
   uint8_t byte;
-  /*
+
   module_control.callerdata = cfs_open(config.ethernet.name, CFS_READ);
   if(module_control.callerdata < 0) {
     log_message(config.ethernet.name, ": File not found");
@@ -99,23 +99,6 @@ ethernet_init(void)
   }
 
   cfs_close(module_control.callerdata);
-  */
-  module_control.callerdata = cbm_open(10,8,10,config.ethernet.name);
-  if(module_control.callerdata) {
-    log_message(config.ethernet.name, ": File not found");
-    error_exit();
-  }
-
-  byte = mod_load(&module_control);
-  if(byte != MLOAD_OK) {
-    log_message(config.ethernet.name, byte == MLOAD_ERR_MEM? ": Out of memory":
-                                                             ": No module");
-    error_exit();
-  }
-
-  cbm_close(10);
-
-
   module = module_control.module;
 
   for(byte = 0; byte < 4; ++byte) {
